@@ -18,7 +18,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # meus apps
-    'accounts',
+    'usuarios',
     'projetos',
     'tarefas',
 ]
@@ -38,7 +38,7 @@ ROOT_URLCONF = 'gerenciador.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [ BASE_DIR / 'templates' ],
+        'DIRS': [BASE_DIR/'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,8 +73,10 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-# STATICFILES_DIRS = [ BASE_DIR / 'static' ]
+STATICFILES_DIRS = [ BASE_DIR / 'static' ]
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_REDIRECT_URL = 'projetos:project-list'
-LOGOUT_REDIRECT_URL = 'accounts:login'
+LOGIN_REDIRECT_URL = 'projetos:lista_projetos'
+LOGOUT_REDIRECT_URL = 'templates:index'
+LOGIN_URL = '/usuarios/entrar/'
+

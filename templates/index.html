@@ -1,7 +1,30 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="container mt-4">
-  <h1>Página inicial</h1>
-  <p>Bem-vindo ao Gerenciador de Tarefas!</p>
-</div>
-{% endblock %}
+{% load static %}
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Gerenciador de Tarefas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+    
+    <main class="py-1">      
+        
+        <div class="container d-flex justify-content-center flex-column align-items-center ">
+          <img class="w-25 h-25" src="{% static 'logo_jambu_tasks.png' %}" alt="Logo Jambu Tasks">          
+          <p>Para iniciar, faça login ou cadastre-se.</p>
+            <div class="d-flex mt-4">
+              <a class="btn btn-outline-success me-2" href="{% url 'usuarios:entrar' %}">Entrar</a>
+              <a class="btn btn-success" href="{% url 'usuarios:cadastrar' %}">Cadastrar</a>
+            </div>
+        </div>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
+
+
+
+
+

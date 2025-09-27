@@ -1,54 +1,46 @@
-# tarefas/views.py
 from django.urls import reverse_lazy
 from django.views import generic
-from .models import Tarefa
-from .forms import TarefaForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import Tarefa
+from .forms import FormularioTarefa
+from projetos.models import Projeto
 
-class TaskListView(LoginRequiredMixin, generic.ListView):
+class ListaTarefas(LoginRequiredMixin, generic.ListView):
     model = Tarefa
-    template_name = 'tarefas/task_list.html'
-    context_object_name = 'tasks'
+    template_name = 'tarefas/lista_tarefas.html'
+    context_object_name = 'tarefas'
+    ordering = ['-criado_em']
 
-    def get_queryset(self):
-        qs = Tarefa.objects.all().order_by('-criado_em')
-        project = self.request.GET.get('project')
-        if project:
-            qs = qs.filter(projeto_id=project)
-        return qs
-    
     def get_context_data(self, **kwargs):
-        ctx = super().get_context_data(**kwargs)
-        from projetos.models import Projeto
-        ctx['projects'] = Projeto.objects.all()
-        return ctx
+        contexto = super().get_context_data(**kwargs)
+        contexto['projetos'] = Projeto.objects.all()
+        return contexto
 
-
-class TaskDetailView(LoginRequiredMixin, generic.DetailView):
+class DetalheTarefa(LoginRequiredMixin, generic.DetailView):
     model = Tarefa
-    template_name = 'tarefas/task_detail.html'
-    context_object_name = 'task'
+    template_name = 'tarefas/detalhe_tarefa.html'
+    context_object_name = 'tarefa'
 
-class TaskCreateView(LoginRequiredMixin, generic.CreateView):
+class CriarTarefa(LoginRequiredMixin, generic.CreateView):
     model = Tarefa
-    form_class = TarefaForm
-    template_name = 'tarefas/task_form.html'
-    success_url = reverse_lazy('tarefas:task-list')
+    form_class = FormularioTarefa
+    template_name = 'tarefas/formulario_tarefa.html'
+    success_url = reverse_lazy('tarefas:lista_tarefas')
 
     def get_initial(self):
-        initial = super().get_initial()
-        project = self.request.GET.get('project')
-        if project:
-            initial['projeto'] = project
-        return initial
+        inicial = super().get_initial()
+        projeto = self.request.GET.get('projeto')
+        if projeto:
+            inicial['projeto'] = projeto
+        return inicial
 
-class TaskUpdateView(LoginRequiredMixin, generic.UpdateView):
+class EditarTarefa(LoginRequiredMixin, generic.UpdateView):
     model = Tarefa
-    form_class = TarefaForm
-    template_name = 'tarefas/task_form.html'
-    success_url = reverse_lazy('tarefas:task-list')
+    form_class = FormularioTarefa
+    template_name = 'tarefas/formulario_tarefa.html'
+    success_url = reverse_lazy('tarefas:lista')
 
-class TaskDeleteView(LoginRequiredMixin, generic.DeleteView):
+class ExcluirTarefa(LoginRequiredMixin, generic.DeleteView):
     model = Tarefa
-    template_name = 'tarefas/task_confirm_delete.html'
-    success_url = reverse_lazy('tarefas:task-list')
+    template_name = 'tarefas/confirma_exclusao_tarefa.html'
+    success_url = reverse_lazy('tarefas:lista')

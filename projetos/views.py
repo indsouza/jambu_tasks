@@ -1,42 +1,38 @@
-# projetos/views.py
 from django.urls import reverse_lazy
 from django.views import generic
-from .models import Projeto
-from .forms import ProjetoForm
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import get_object_or_404
+from .models import Projeto
+from .forms import FormularioProjeto
 
-class ProjectListView(LoginRequiredMixin, generic.ListView):
+class ListaProjetos(LoginRequiredMixin, generic.ListView):
     model = Projeto
-    template_name = 'projetos/project_list.html'
-    context_object_name = 'projects'
+    template_name = 'projetos/lista_projetos.html'
+    context_object_name = 'projetos'
+    ordering = ['-criado_em']
 
-    def get_queryset(self):
-        # usuário pode ver projetos onde é participante ou todos (ajuste conforme: aqui mostramos todos)
-        return Projeto.objects.all().order_by('-criado_em')
-
-class ProjectDetailView(LoginRequiredMixin, generic.DetailView):
+class DetalheProjeto(LoginRequiredMixin, generic.DetailView):
     model = Projeto
-    template_name = 'projetos/project_detail.html'
-    context_object_name = 'project'
+    template_name = 'projetos/detalhe_projeto.html'
+    context_object_name = 'projeto'
 
-class ProjectCreateView(LoginRequiredMixin, generic.CreateView):
+class CriarProjeto(LoginRequiredMixin, generic.CreateView):
     model = Projeto
-    form_class = ProjetoForm
-    template_name = 'projetos/project_form.html'
-    success_url = reverse_lazy('projetos:project-list')
+    form_class = FormularioProjeto
+    template_name = 'projetos/formulario_projeto.html'
+    success_url = reverse_lazy('projetos:lista_projetos')
 
     def form_valid(self, form):
-        form.instance.criado_por = self.request.user
+        form.instance.criador = self.request.user
         return super().form_valid(form)
 
-class ProjectUpdateView(LoginRequiredMixin, generic.UpdateView):
+class EditarProjeto(LoginRequiredMixin, generic.UpdateView):
     model = Projeto
-    form_class = ProjetoForm
-    template_name = 'projetos/project_form.html'
-    success_url = reverse_lazy('projetos:project-list')
+    form_class = FormularioProjeto
+    template_name = 'projetos/formulario_projeto.html'
+    success_url = reverse_lazy('projetos:lista_projetos')
 
-class ProjectDeleteView(LoginRequiredMixin, generic.DeleteView):
+class ExcluirProjeto(LoginRequiredMixin, generic.DeleteView):
     model = Projeto
-    template_name = 'projetos/project_confirm_delete.html'
-    success_url = reverse_lazy('projetos:project-list')
+    template_name = 'projetos/confirma_exclusao_projeto.html'
+    success_url = reverse_lazy('projetos:lista_projetos')
+

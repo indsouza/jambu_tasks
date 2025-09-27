@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center">
+    <h2>Projetos</h2>
+    <a class="btn btn-primary" href="{% url 'projetos:criar' %}">Novo Projeto</a>
+  </div>
+  <hr>
+  {% for projeto in projetos %}
+    <div class="card mb-2">
+      <div class="card-body">
+        <h5><a href="{% url 'projetos:detalhe' projeto.pk %}">{{ projeto.titulo }}</a></h5>
+        <p>{{ projeto.descricao|truncatewords:20 }}</p>
+        <small>Criado por: {{ projeto.criador.get_full_name }} em {{ projeto.criado_em|date:"d/m/Y H:i" }}</small>
+      </div>
+    </div>
+  {% empty %}
+    <p>Nenhum projeto encontrado.</p>
+  {% endfor %}
+</div>
+{% endblock %}

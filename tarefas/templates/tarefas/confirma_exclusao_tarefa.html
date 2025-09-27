@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>Confirmar exclusão da tarefa</h2>
+  <p>Tem certeza de que deseja excluir a tarefa "<strong>{{ object.nome }}</strong>"?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button class="btn btn-danger">Sim, excluir</button>
+    <a class="btn btn-secondary" href="{% url 'tarefas:detalhe' object.pk %}">Cancelar</a>
+  </form>
+</div>
+{% endblock %}

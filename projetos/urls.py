@@ -1,14 +1,13 @@
-# projetos/urls.py
 from django.urls import path
 from .views import (
-    ProjectListView, ProjectDetailView, ProjectCreateView,
-    ProjectUpdateView, ProjectDeleteView
+    ListaProjetos, DetalheProjeto, CriarProjeto,
+    EditarProjeto, ExcluirProjeto
 )
 
 urlpatterns = [
-    path('', ProjectListView.as_view(), name='project-list'),
-    path('novo/', ProjectCreateView.as_view(), name='project-create'),
-    path('<int:pk>/', ProjectDetailView.as_view(), name='project-detail'),
-    path('<int:pk>/editar/', ProjectUpdateView.as_view(), name='project-update'),
-    path('<int:pk>/deletar/', ProjectDeleteView.as_view(), name='project-delete'),
+    path('', ListaProjetos.as_view(), name='lista_projetos'),
+    path('novo/', CriarProjeto.as_view(), name='criar'),
+    path('<int:pk>/', DetalheProjeto.as_view(), name='detalhe'),
+    path('<int:pk>/editar/', EditarProjeto.as_view(), name='editar'),
+    path('<int:pk>/excluir/', ExcluirProjeto.as_view(), name='excluir'),
 ]

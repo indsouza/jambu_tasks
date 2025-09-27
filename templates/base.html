@@ -9,21 +9,21 @@
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container">
-        <a class="navbar-brand" href="{% url 'projetos:project-list' %}">Gerenciador</a>
+        <a class="navbar-brand" href="{% url 'projetos:lista_projetos' %}">Gerenciador</a>
         <div>
           <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex flex-row">
-            <li class="nav-item me-2"><a class="nav-link" href="{% url 'projetos:project-list' %}">Projetos</a></li>
-            <li class="nav-item me-2"><a class="nav-link" href="{% url 'tarefas:task-list' %}">Tarefas</a></li>
+            <li class="nav-item me-2"><a class="nav-link" href="{% url 'projetos:lista_projetos' %}">Projetos</a></li>
+            <li class="nav-item me-2"><a class="nav-link" href="{% url 'tarefas:lista_tarefas' %}">Tarefas</a></li>
           </ul>
         </div>
         <div class="d-flex">
           {% if request.user.is_authenticated %}
             <span class="me-2">Olá, {{ request.user.get_short_name|default:request.user.username }}</span>
-            <a class="btn btn-outline-secondary me-2" href="{% url 'accounts:profile' %}">Perfil</a>
-            <a class="btn btn-outline-danger" href="{% url 'accounts:logout' %}">Sair</a>
+            <a class="btn btn-outline-secondary me-2" href="{% url 'usuarios:perfil' %}">Perfil</a>
+            <a class="btn btn-outline-danger" href="{% url 'usuarios:sair' %}">Sair</a>
           {% else %}
-            <a class="btn btn-outline-primary me-2" href="{% url 'accounts:login' %}">Entrar</a>
-            <a class="btn btn-primary" href="{% url 'accounts:signup' %}">Cadastrar</a>
+            <a class="btn btn-outline-primary me-2" href="{% url 'usuarios:entrar' %}">Entrar</a>
+            <a class="btn btn-primary" href="{% url 'usuarios:cadastrar' %}">Cadastrar</a>
           {% endif %}
         </div>
       </div>

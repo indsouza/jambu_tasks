@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <h2>{{ tarefa.nome }}</h2>
+  <p>{{ tarefa.detalhes }}</p>
+  <p><strong>Projeto:</strong> <a href="{% url 'projetos:detalhe' tarefa.projeto.pk %}">{{ tarefa.projeto.titulo }}</a></p>
+  <p><strong>Responsável:</strong> {{ tarefa.responsavel.get_full_name }}</p>
+  <p><strong>Status:</strong> {{ tarefa.get_status_display }}</p>
+  <p><strong>Prazo:</strong> {{ tarefa.prazo|date:"d/m/Y" }}</p>
+  <a class="btn btn-secondary" href="{% url 'tarefas:editar' tarefa.pk %}">Editar</a>
+  <a class="btn btn-danger" href="{% url 'tarefas:excluir' tarefa.pk %}">Excluir</a>
+</div>
+{% endblock %}
