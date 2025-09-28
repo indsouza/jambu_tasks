@@ -6,7 +6,7 @@ class Projeto(models.Model):
     descricao = models.TextField("Descrição", blank=True)
     participantes = models.ManyToManyField(
         User,
-        related_name='participacao_projetos',
+        related_name="projetos",
         blank=True,
         verbose_name="Participantes"
     )

@@ -4,22 +4,38 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Gerenciador de Tarefas</title>
+    <title>Jambu Tasks</title>
+    <link rel="shortcut icon" href= "{% static 'logo_jambu_clean.png' %}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container">
-          <div class="asset-text d-flex align-items-center">
-            <img class="img-fluid" style="max-height: 40px;" src="{%static 'logo_jambu_clean.png' %}" alt="">
-            <h4>Jambu Tasks</h4>
-          </div>        
-        </div>        
+      <div class="container d-flex justify-content-between align-items-center">
+        
+        {# Logo + título #}
+        <div class="d-flex align-items-center">
+          <img class="img-fluid me-2" style="max-height: 40px;" src="{% static 'logo_jambu_clean.png' %}" alt="Logo Jambu Tasks">
+          <h4 class="mb-0">Jambu Tasks</h4>
+        </div>
+
+        {# Links à direita (somente se logado) #}
+        {% if user.is_authenticated %}
+          <div class="d-flex align-items-center gap-3">
+            <a href="{% url 'usuarios:perfil' %}" class="nav-link">Perfil</a>
+            <form method="post" action="{% url 'usuarios:sair' %}" class="d-inline">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-outline-danger btn-sm">Sair</button>
+            </form>
+          </div>
+        {% endif %}
+
       </div>
     </nav>
+
     <main class="py-4">     
       {% block content %}{% endblock %}
     </main>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

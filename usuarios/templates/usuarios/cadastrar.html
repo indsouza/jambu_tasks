@@ -1,11 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container mt-4">
-  <h2>Cadastrar Usuário</h2>
-  <form method="post">
+<div class="container mt-4 d-flex flex-column align-items-center">
+  <h2 class="mb-4 text-success">Cadastro de Usuário</h2>
+
+  <form method="post" class="w-100" style="max-width: 500px;">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button class="btn btn-success">Criar conta</button>
+
+    {# Exibe erros gerais do formulário (ex.: senha fraca, conflito de username) #}
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger">
+        {{ form.non_field_errors }}
+      </div>
+    {% endif %}
+
+    {# Loop pelos campos do formulário #}
+    {% for field in form %}
+      <div class="mb-3">
+        {{ field.label_tag }}  {# Usa o label definido no forms.py, respeitando os labels da Meta #}
+        {{ field }}
+        {% if field.errors %}
+          <div class="text-danger small mt-1">
+            {% for erro in field.errors %}
+              {{ erro }}{% if not forloop.last %}<br>{% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+
+    {# Botões #}
+    <div class="d-flex justify-content-between mt-4">
+      <a class="btn btn-secondary" href="{% url 'usuarios:entrar' %}">Cancelar</a>
+      <button type="submit" class="btn btn-success">Cadastrar</button>
+    </div>
   </form>
 </div>
 {% endblock %}

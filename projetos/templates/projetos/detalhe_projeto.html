@@ -12,11 +12,13 @@
       <p>{{ projeto.descricao }}</p>
       <p><strong>Participantes:</strong>
         {% for usuario in projeto.participantes.all %}
-          {{ usuario.get_full_name }}{% if not forloop.last %}, {% endif %}
+        {{ usuario.get_full_name|default:usuario.username }}{% if not forloop.last %}, {% endif %}
         {% empty %}
           Nenhum participante.
         {% endfor %}
       </p>
+
+      
 
       <div class="d-flex gap-2 mt-3">
         <a class="btn btn-warning" href="{% url 'projetos:editar' projeto.pk %}">Editar</a>
@@ -51,7 +53,7 @@
               </h5>
               <p>Status: {{ tarefa.get_status_display }} — Prazo: {{ tarefa.prazo|default:"—" }}</p>
               {% if tarefa.responsavel %}
-                <p>Responsável: {{ tarefa.responsavel.get_full_name }}</p>
+                <p><strong>Responsável:</strong> {{ tarefa.responsavel.get_full_name|default:tarefa.responsavel.username }}</p>
               {% endif %}
             </div>
           </div>

@@ -9,7 +9,7 @@ from .forms import FormularioCadastroUsuario
 class CadastrarUsuario(generic.CreateView):
     form_class = FormularioCadastroUsuario
     template_name = 'usuarios/cadastrar.html'
-    success_url = reverse_lazy('projetos:lista')
+    success_url = reverse_lazy('usuarios:entrar')
 
     def form_valid(self, form):
         usuario = form.save()

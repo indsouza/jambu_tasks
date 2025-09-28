@@ -8,7 +8,7 @@
       {{ tarefa.projeto.titulo }}
     </a>
   </p>
-  <p><strong>Responsável:</strong> {{ tarefa.responsavel.get_full_name }}</p>
+  <p><strong>Responsável:</strong> {{ tarefa.responsavel.get_full_name|default:tarefa.responsavel.username }}</p>
   <p><strong>Status:</strong> {{ tarefa.get_status_display }}</p>
   <p><strong>Prazo:</strong> {{ tarefa.prazo|date:"d/m/Y" }}</p>
 
