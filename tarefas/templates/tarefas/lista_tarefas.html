@@ -2,8 +2,8 @@
 {% block content %}
 <div class="container mt-4">
   <div class="d-flex justify-content-between align-items-center">
-    <h2>Tarefas</h2>
-    <a class="btn btn-primary" href="{% url 'tarefas:criar_tarefa' %}">Nova Tarefa</a>
+    <h2 class="text-success">Tarefas</h2>
+    <a class="btn btn-success" href="{% url 'tarefas:criar_tarefa' %}">Nova Tarefa</a>
   </div>
   <hr>
 
@@ -13,10 +13,10 @@
         <div class="card h-100">
           <div class="card-body">
             <h5 class="card-title">
-              <a href="{% url 'tarefas:detalhe_tarefa' tarefa.pk %}">{{ tarefa.nome }}</a>
+              <a class="text-success" href="{% url 'tarefas:detalhe_tarefa' tarefa.pk %}">{{ tarefa.nome }}</a>
             </h5>
             <p class="card-text">
-              Projeto: <a href="{% url 'projetos:detalhe' tarefa.projeto.pk %}">{{ tarefa.projeto.titulo }}</a>
+              Projeto: <a class="text-success" href="{% url 'projetos:detalhe' tarefa.projeto.pk %}">{{ tarefa.projeto.titulo }}</a>
             </p>
             <p class="card-text">
               Status: {{ tarefa.get_status_display }}<br>

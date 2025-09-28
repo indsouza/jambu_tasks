@@ -1,14 +1,76 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container mt-4">
-  <h2>{% if object %}Editar Projeto{% else %}Novo Projeto{% endif %}</h2>
-  <form method="post">
+<div class="container mt-4 d-flex flex-column align-items-center">
+  <h2 class="mb-4 text-success">
+    {% if form.instance.pk %}
+      Editar Projeto
+    {% else %}
+      Criar Projeto
+    {% endif %}
+  </h2>
+
+  <form method="post" class="w-100" style="max-width: 500px;">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button class="btn btn-primary">
-      {% if object %}Salvar alterações{% else %}Criar projeto{% endif %}
-    </button>
-    <a class="btn btn-secondary" href="{% url 'projetos:criar' %}">Cancelar</a>
+
+    {# Exibe erros gerais do formulário #}
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger">
+        {{ form.non_field_errors }}
+      </div>
+    {% endif %}
+
+    {# Campo título #}
+    <div class="mb-3">
+      <label for="{{ form.titulo.id_for_label }}" class="form-label d-block">Título</label>
+      {{ form.titulo }}
+      {% if form.titulo.errors %}
+        <div class="text-danger small mt-1">
+          {% for erro in form.titulo.errors %}
+            {{ erro }}{% if not forloop.last %}<br>{% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    {# Campo descrição #}
+    <div class="mb-3">
+      <label for="{{ form.descricao.id_for_label }}" class="form-label d-block">Descrição</label>
+      {{ form.descricao }}
+      {% if form.descricao.errors %}
+        <div class="text-danger small mt-1">
+          {% for erro in form.descricao.errors %}
+            {{ erro }}{% if not forloop.last %}<br>{% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    {# Campo participantes #}
+    <div class="mb-3">
+      <label for="{{ form.participantes.id_for_label }}" class="form-label d-block">Participantes</label>
+      {{ form.participantes }}
+      {% if form.participantes.errors %}
+        <div class="text-danger small mt-1">
+          {% for erro in form.participantes.errors %}
+            {{ erro }}{% if not forloop.last %}<br>{% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+
+    {# Botões #}
+    <div class="d-flex justify-content-between mt-4">
+      <a class="btn btn-secondary" href="{% url 'projetos:lista_projetos' %}">Cancelar</a>
+      <button type="submit" class="btn btn-success">
+        {% if form.instance.pk %}
+          Atualizar
+        {% else %}
+          Criar
+        {% endif %}
+      </button>
+    </div>
   </form>
 </div>
 {% endblock %}
+
+
