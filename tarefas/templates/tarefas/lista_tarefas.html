@@ -3,20 +3,35 @@
 <div class="container mt-4">
   <div class="d-flex justify-content-between align-items-center">
     <h2>Tarefas</h2>
-    <a class="btn btn-primary" href="{% url 'tarefas:criar' %}">Nova Tarefa</a>
+    <a class="btn btn-primary" href="{% url 'tarefas:criar_tarefa' %}">Nova Tarefa</a>
   </div>
   <hr>
-  {% for tarefa in tarefas %}
-    <div class="card mb-2">
-      <div class="card-body">
-        <h5><a href="{% url 'tarefas:detalhe' tarefa.pk %}">{{ tarefa.nome }}</a></h5>
-        <p>Projeto: <a href="{% url 'projetos:detalhe' tarefa.projeto.pk %}">{{ tarefa.projeto.titulo }}</a></p>
-        <p>Status: {{ tarefa.get_status_display }} — Prazo: {{ tarefa.prazo|default:"—" }}</p>
+
+  <div class="row">
+    {% for tarefa in tarefas %}
+      <div class="col-md-3 mb-4">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">
+              <a href="{% url 'tarefas:detalhe_tarefa' tarefa.pk %}">{{ tarefa.nome }}</a>
+            </h5>
+            <p class="card-text">
+              Projeto: <a href="{% url 'projetos:detalhe' tarefa.projeto.pk %}">{{ tarefa.projeto.titulo }}</a>
+            </p>
+            <p class="card-text">
+              Status: {{ tarefa.get_status_display }}<br>
+              Prazo: {{ tarefa.prazo|default:"—" }}
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
-  {% empty %}
-    <p>Sem tarefas cadastradas.</p>
-  {% endfor %}
+    {% empty %}
+      <div class="col-12">
+        <p>Sem tarefas cadastradas.</p>
+      </div>
+    {% endfor %}
+  </div>
 </div>
 {% endblock %}
+
 

@@ -12,11 +12,12 @@
     <main class="py-1">      
         
         <div class="container d-flex justify-content-center flex-column align-items-center ">
-          <img class="w-25 h-25" src="{% static 'logo_jambu_tasks.png' %}" alt="Logo Jambu Tasks">          
+          <img class="w-25 h-25" src="{% static 'logo_jambu_tasks.png' %}" alt="Logo Jambu Tasks">
+          <h5 class="text-success">O seu novo Gerenciador de Projetos</h5>        
           <p>Para iniciar, faça login ou cadastre-se.</p>
             <div class="d-flex mt-4">
-              <a class="btn btn-outline-success me-2" href="{% url 'usuarios:entrar' %}">Entrar</a>
-              <a class="btn btn-success" href="{% url 'usuarios:cadastrar' %}">Cadastrar</a>
+              <a class="btn btn-outline-success me-2" href="{% url 'usuarios:entrar' %}">Login</a>
+              <a class="btn btn-success" href="{% url 'usuarios:cadastrar' %}">Cadastre-se</a>
             </div>
         </div>
     </main>

@@ -8,7 +8,7 @@
     <button class="btn btn-primary">
       {% if object %}Salvar alterações{% else %}Criar tarefa{% endif %}
     </button>
-    <a class="btn btn-secondary" href="{% url 'tarefas:criar' %}">Cancelar</a>
+    <a class="btn btn-secondary" href="{% url 'tarefas:lista_tarefas' %}">Cancelar</a>
   </form>
 </div>
 {% endblock %}

@@ -7,7 +7,7 @@
   <p><strong>Responsável:</strong> {{ tarefa.responsavel.get_full_name }}</p>
   <p><strong>Status:</strong> {{ tarefa.get_status_display }}</p>
   <p><strong>Prazo:</strong> {{ tarefa.prazo|date:"d/m/Y" }}</p>
-  <a class="btn btn-secondary" href="{% url 'tarefas:editar' tarefa.pk %}">Editar</a>
-  <a class="btn btn-danger" href="{% url 'tarefas:excluir' tarefa.pk %}">Excluir</a>
+  <a class="btn btn-secondary" href="{% url 'tarefas:editar_tarefa' tarefa.pk %}">Editar</a>
+  <a class="btn btn-danger" href="{% url 'tarefas:excluir_tarefa' tarefa.pk %}">Excluir</a>
 </div>
 {% endblock %}

@@ -1,16 +1,68 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container mt-4">
-  <h2>{{ projeto.titulo }}</h2>
-  <p>{{ projeto.descricao }}</p>
-  <p><strong>Participantes:</strong>
-    {% for usuario in projeto.participantes.all %}
-      {{ usuario.get_full_name }}{% if not forloop.last %}, {% endif %}
-    {% empty %}
-      Nenhum participante.
-    {% endfor %}
-  </p>
-  <a class="btn btn-secondary" href="{% url 'projetos:editar' projeto.pk %}">Editar</a>
-  <a class="btn btn-danger" href="{% url 'projetos:excluir' projeto.pk %}">Excluir</a>
+
+  {# Bloco flex: detalhes à esquerda e botão Nova Tarefa à direita #}
+  <div class="d-flex justify-content-between align-items-center">
+
+    {# Bloco de detalhes do projeto + botões Editar, Excluir e Voltar #}
+    <div>
+      <h3 class="text-success mb-3">Detalhes do Projeto</h3>
+      <h4>{{ projeto.titulo }}</h4>
+      <p>{{ projeto.descricao }}</p>
+      <p><strong>Participantes:</strong>
+        {% for usuario in projeto.participantes.all %}
+          {{ usuario.get_full_name }}{% if not forloop.last %}, {% endif %}
+        {% empty %}
+          Nenhum participante.
+        {% endfor %}
+      </p>
+
+      <div class="d-flex gap-2 mt-3">
+        <a class="btn btn-warning" href="{% url 'projetos:editar' projeto.pk %}">Editar</a>
+        <a class="btn btn-danger" href="{% url 'projetos:excluir' projeto.pk %}">Excluir</a>
+        <a class="btn btn-primary" href="{% url 'projetos:lista_projetos' %}">Voltar</a>
+      </div>
+    </div>
+
+    {# Botão Nova Tarefa alinhado verticalmente com o bloco à esquerda #}
+    <div class="ms-4">
+      <a class="btn btn-success"
+         href="{% url 'tarefas:criar_tarefa' %}?projeto={{ projeto.pk }}">
+        Nova tarefa
+      </a>
+    </div>
+
+  </div>
+
+  <hr>
+
+  <div class="container mt-4">
+    <h3 class="text-primary">Tarefas deste projeto</h3>
+    <div class="row">
+      {% for tarefa in tarefas %}
+        <div class="col-md-3 mb-3">
+          <div class="card h-100">
+            <div class="card-body">
+              <h5>
+                <a href="{% url 'tarefas:detalhe_tarefa' tarefa.pk %}">
+                  {{ tarefa.nome }}
+                </a>
+              </h5>
+              <p>Status: {{ tarefa.get_status_display }} — Prazo: {{ tarefa.prazo|default:"—" }}</p>
+              {% if tarefa.responsavel %}
+                <p>Responsável: {{ tarefa.responsavel.get_full_name }}</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <div class="col-12">
+          <p>Não há tarefas cadastradas para este projeto.</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
 </div>
 {% endblock %}

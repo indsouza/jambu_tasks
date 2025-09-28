@@ -3,6 +3,7 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Projeto
 from .forms import FormularioProjeto
+from tarefas.models import Tarefa  # <-- importa o modelo de tarefas
 
 class ListaProjetos(LoginRequiredMixin, generic.ListView):
     model = Projeto
@@ -14,6 +15,12 @@ class DetalheProjeto(LoginRequiredMixin, generic.DetailView):
     model = Projeto
     template_name = 'projetos/detalhe_projeto.html'
     context_object_name = 'projeto'
+
+    def get_context_data(self, **kwargs):
+        contexto = super().get_context_data(**kwargs)
+        # adiciona as tarefas ligadas a este projeto
+        contexto['tarefas'] = Tarefa.objects.filter(projeto=self.object)
+        return contexto
 
 class CriarProjeto(LoginRequiredMixin, generic.CreateView):
     model = Projeto

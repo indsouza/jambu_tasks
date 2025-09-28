@@ -5,6 +5,7 @@ from .models import Tarefa
 from .forms import FormularioTarefa
 from projetos.models import Projeto
 
+
 class ListaTarefas(LoginRequiredMixin, generic.ListView):
     model = Tarefa
     template_name = 'tarefas/lista_tarefas.html'
@@ -16,31 +17,36 @@ class ListaTarefas(LoginRequiredMixin, generic.ListView):
         contexto['projetos'] = Projeto.objects.all()
         return contexto
 
+
 class DetalheTarefa(LoginRequiredMixin, generic.DetailView):
     model = Tarefa
     template_name = 'tarefas/detalhe_tarefa.html'
     context_object_name = 'tarefa'
 
+
 class CriarTarefa(LoginRequiredMixin, generic.CreateView):
     model = Tarefa
     form_class = FormularioTarefa
     template_name = 'tarefas/formulario_tarefa.html'
-    success_url = reverse_lazy('tarefas:lista_tarefas')
+    success_url = reverse_lazy('tarefas:lista_tarefas')  # <-- mantive 'lista' como nome-padrão
 
     def get_initial(self):
         inicial = super().get_initial()
-        projeto = self.request.GET.get('projeto')
-        if projeto:
-            inicial['projeto'] = projeto
+        projeto_id = self.request.GET.get('projeto')  # pega ?projeto=ID da URL
+        if projeto_id:
+            inicial['projeto'] = projeto_id
         return inicial
+
 
 class EditarTarefa(LoginRequiredMixin, generic.UpdateView):
     model = Tarefa
     form_class = FormularioTarefa
     template_name = 'tarefas/formulario_tarefa.html'
-    success_url = reverse_lazy('tarefas:lista')
+    success_url = reverse_lazy('tarefas:lista_tarefas')  # <-- padronizado
+
 
 class ExcluirTarefa(LoginRequiredMixin, generic.DeleteView):
     model = Tarefa
     template_name = 'tarefas/confirma_exclusao_tarefa.html'
-    success_url = reverse_lazy('tarefas:lista')
+    success_url = reverse_lazy('tarefas:lista_tarefas')  # <-- padronizado
+
