@@ -1,9 +1,9 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 class FormularioCadastroUsuario(UserCreationForm):
-    primeiro_nome = forms.CharField(max_length=30, required=True, label='Nome:')
+    primeiro_nome = forms.CharField(max_length=30, required=True, label='Primeiro nome:')
     sobrenome = forms.CharField(max_length=30, required=True, label='Último nome:')
     email = forms.EmailField(required=True, label='E-mail:')
 
@@ -28,6 +28,8 @@ class FormularioCadastroUsuario(UserCreationForm):
         user.email = self.cleaned_data['email']
         if commit:
             user.save()
+            grupo = Group.objects.get(name="Participantes de Projeto")
+            user.groups.add(grupo)
         return user
 
 
