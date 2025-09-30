@@ -12,8 +12,15 @@
   <p><strong>Status:</strong> {{ tarefa.get_status_display }}</p>
   <p><strong>Prazo:</strong> {{ tarefa.prazo|date:"d/m/Y" }}</p>
 
-  <a class="btn btn-warning" href="{% url 'tarefas:editar_tarefa' tarefa.pk %}">Editar</a>
-  <a class="btn btn-danger" href="{% url 'tarefas:excluir_tarefa' tarefa.pk %}">Excluir</a>
-  <a class="btn btn-primary" href="{% url 'projetos:detalhe' tarefa.projeto.pk %}">Voltar</a>
+  <div class="d-flex gap-2 mt-3">
+    {% if perms.tarefas.change_tarefa %}
+      <a class="btn btn-warning" href="{% url 'tarefas:editar_tarefa' tarefa.pk %}">Editar</a>
+    {% endif %}
+    {% if perms.tarefas.delete_tarefa %}
+      <a class="btn btn-danger" href="{% url 'tarefas:excluir_tarefa' tarefa.pk %}">Excluir</a>
+    {% endif %}
+    <a class="btn btn-primary" href="{% url 'projetos:detalhe' tarefa.projeto.pk %}">Voltar</a>
+  </div>
 </div>
 {% endblock %}
+

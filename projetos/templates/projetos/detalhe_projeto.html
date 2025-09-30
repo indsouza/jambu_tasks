@@ -12,27 +12,31 @@
       <p>{{ projeto.descricao }}</p>
       <p><strong>Participantes:</strong>
         {% for usuario in projeto.participantes.all %}
-        {{ usuario.get_full_name|default:usuario.username }}{% if not forloop.last %}, {% endif %}
+          {{ usuario.get_full_name|default:usuario.username }}{% if not forloop.last %}, {% endif %}
         {% empty %}
           Nenhum participante.
         {% endfor %}
       </p>
 
-      
-
       <div class="d-flex gap-2 mt-3">
-        <a class="btn btn-warning" href="{% url 'projetos:editar' projeto.pk %}">Editar</a>
-        <a class="btn btn-danger" href="{% url 'projetos:excluir' projeto.pk %}">Excluir</a>
+        {% if perms.projetos.change_projeto %}
+          <a class="btn btn-warning" href="{% url 'projetos:editar' projeto.pk %}">Editar</a>
+        {% endif %}
+        {% if perms.projetos.delete_projeto %}
+          <a class="btn btn-danger" href="{% url 'projetos:excluir' projeto.pk %}">Excluir</a>
+        {% endif %}
         <a class="btn btn-primary" href="{% url 'projetos:lista_projetos' %}">Voltar</a>
       </div>
     </div>
 
     {# Botão Nova Tarefa alinhado verticalmente com o bloco à esquerda #}
     <div class="ms-4">
-      <a class="btn btn-success"
-         href="{% url 'tarefas:criar_tarefa' %}?projeto={{ projeto.pk }}">
-        Nova tarefa
-      </a>
+      {% if perms.tarefas.add_tarefa %}
+        <a class="btn btn-success"
+           href="{% url 'tarefas:criar_tarefa' %}?projeto={{ projeto.pk }}">
+          Nova tarefa
+        </a>
+      {% endif %}
     </div>
 
   </div>
@@ -68,3 +72,4 @@
 
 </div>
 {% endblock %}
+

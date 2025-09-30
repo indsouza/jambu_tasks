@@ -3,7 +3,9 @@
 <div class="container mt-4">
   <div class="d-flex justify-content-between align-items-center">
     <h2 class="text-success">Projetos</h2>
-    <a class="btn btn-success" href="{% url 'projetos:criar' %}">Novo Projeto</a>
+    {% if perms.projetos.add_projeto %}
+      <a class="btn btn-success" href="{% url 'projetos:criar' %}">Novo Projeto</a>
+    {% endif %}
   </div>
   <hr>
 
