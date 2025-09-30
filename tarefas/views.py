@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 from django.views import generic
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin 
 from django.db import models
 from .models import Tarefa
 from .forms import FormularioTarefa
@@ -12,6 +12,7 @@ class ListaTarefas(LoginRequiredMixin, generic.ListView):
     template_name = 'tarefas/lista_tarefas.html'
     context_object_name = 'tarefas'
     ordering = ['-criado_em']
+    permission_required = 'tarefas.view_tarefa'
 
     def get_queryset(self):
         user = self.request.user
@@ -34,6 +35,7 @@ class DetalheTarefa(LoginRequiredMixin, generic.DetailView):
     model = Tarefa
     template_name = 'tarefas/detalhe_tarefa.html'
     context_object_name = 'tarefa'
+    permission_required = 'tarefas.view_tarefa'
 
     def get_queryset(self):
         user = self.request.user
@@ -44,11 +46,12 @@ class DetalheTarefa(LoginRequiredMixin, generic.DetailView):
         ).distinct()
 
 
-class CriarTarefa(LoginRequiredMixin, generic.CreateView):
+class CriarTarefa(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
     model = Tarefa
     form_class = FormularioTarefa
     template_name = 'tarefas/formulario_tarefa.html'
     success_url = reverse_lazy('tarefas:lista_tarefas')
+    permission_required = 'tarefas.add_tarefa'
 
     def get_initial(self):
         inicial = super().get_initial()
@@ -66,11 +69,12 @@ class CriarTarefa(LoginRequiredMixin, generic.CreateView):
         return form
 
 
-class EditarTarefa(LoginRequiredMixin, generic.UpdateView):
+class EditarTarefa(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
     model = Tarefa
     form_class = FormularioTarefa
     template_name = 'tarefas/formulario_tarefa.html'
     success_url = reverse_lazy('tarefas:lista_tarefas')
+    permission_required = 'tarefas.change_tarefa'
 
     def get_queryset(self):
         user = self.request.user
@@ -81,10 +85,11 @@ class EditarTarefa(LoginRequiredMixin, generic.UpdateView):
         ).distinct()
 
 
-class ExcluirTarefa(LoginRequiredMixin, generic.DeleteView):
+class ExcluirTarefa(LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView):
     model = Tarefa
     template_name = 'tarefas/confirma_exclusao_tarefa.html'
     success_url = reverse_lazy('tarefas:lista_tarefas')
+    permission_required = 'tarefas.delete_tarefa'
 
     def get_queryset(self):
         user = self.request.user
